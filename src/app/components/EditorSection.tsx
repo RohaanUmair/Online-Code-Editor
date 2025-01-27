@@ -1,12 +1,13 @@
 import React, { ReactElement } from 'react'
-import { IoIosClose } from 'react-icons/io';
 import { SiCss3, SiHtml5, SiJavascript } from 'react-icons/si';
 
 interface Props {
     type: 'HTML' | 'CSS' | 'JavaScript';
+    value: string;
+    setValue: (val: string) => void;
 }
 
-function EditorSection({ type }: Props) {
+function EditorSection({ type, value, setValue }: Props) {
     function getType(): ReactElement | undefined {
         if (type == 'HTML') {
             return <SiHtml5 className='text-orange-600' />
@@ -30,7 +31,11 @@ function EditorSection({ type }: Props) {
             </div>
 
 
-            <textarea className='w-full h-full resize-none bg-zinc-800 outline-none p-5 text-white'></textarea>
+            <textarea
+                className='w-full h-full resize-none bg-zinc-800 outline-none p-5 text-white'
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+            />
         </div>
     )
 }

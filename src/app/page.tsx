@@ -1,9 +1,34 @@
+'use client'
 import { VscEditorLayout } from "react-icons/vsc";
 import EditorSection from "./components/EditorSection";
 import { SiCss3, SiHtml5, SiJavascript } from "react-icons/si";
 import DisplaySection from "./components/DisplaySection";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [html, setHtml] = useState<string>('');
+  const [css, setCss] = useState<string>('');
+  const [javaScript, setJavaScript] = useState<string>('');
+
+  const [srcDoc, setSrcDoc] = useState<string>('');
+
+  useEffect(() => {
+    setSrcDoc(`
+        <html>
+          <body>
+            ${html}
+          </body>
+          <style>
+            ${css}
+          </style>
+          <script>
+            ${javaScript}
+          </script>
+        </html>
+        `);
+  }, [html, css, javaScript]);
+
+
   return (
     <div className="w-screen h-screen bg-black px-1 flex flex-col">
       <div className="flex flex-col px-6 py-2">
@@ -19,14 +44,14 @@ export default function Home() {
 
 
       <div className="flex justify-between">
-        <EditorSection type="HTML" />
-        <EditorSection type="CSS" />
-        <EditorSection type="JavaScript" />
+        <EditorSection type="HTML" value={html} setValue={setHtml} />
+        <EditorSection type="CSS" value={css} setValue={setCss} />
+        <EditorSection type="JavaScript" value={javaScript} setValue={setJavaScript} />
       </div>
 
 
       <div className="h-full">
-        <DisplaySection />
+        <DisplaySection srcDoc={srcDoc} />
       </div>
     </div>
   )
