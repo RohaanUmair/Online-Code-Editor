@@ -7,11 +7,7 @@ interface Props {
     setValue: (val: string) => void;
 }
 
-<<<<<<< HEAD:src/app/components/Editor.tsx
 function Editor({ type, value, setValue }: Props) {
-=======
-function EditorSection({ type, value, setValue }: Props) {
->>>>>>> ae0b1ae37fba175f685db14078b344bb6e6346b0:src/app/components/EditorSection.tsx
     function getType(): ReactElement | undefined {
         if (type == 'HTML') {
             return <SiHtml5 className='text-orange-600' />
@@ -36,12 +32,8 @@ function EditorSection({ type, value, setValue }: Props) {
 
 
             <textarea
-<<<<<<< HEAD:src/app/components/Editor.tsx
                 spellCheck={false}
                 className='w-full h-full resize-none bg-zinc-800 outline-none p-5 text-white text-sm'
-=======
-                className='w-full h-full resize-none bg-zinc-800 outline-none p-5 text-white'
->>>>>>> ae0b1ae37fba175f685db14078b344bb6e6346b0:src/app/components/EditorSection.tsx
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
             />

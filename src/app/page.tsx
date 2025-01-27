@@ -1,14 +1,10 @@
-'use client'
+'use client';
 import { VscEditorLayout } from "react-icons/vsc";
 import { SiCss3, SiHtml5, SiJavascript } from "react-icons/si";
-import DisplaySection from "./components/DisplaySection";
+import DisplaySection from "../components/DisplaySection";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import Terminal from "./components/Terminal";
-import Editor from "./components/Editor";
-import EditorsSection from "./components/EditorsSection";
-=======
->>>>>>> ae0b1ae37fba175f685db14078b344bb6e6346b0
+import Terminal from "../components/Terminal";
+import EditorsSection from "../components/EditorsSection";
 
 export default function Home() {
   const [html, setHtml] = useState<string>('');
@@ -17,28 +13,45 @@ export default function Home() {
 
   const [srcDoc, setSrcDoc] = useState<string>('');
 
-  useEffect(() => {
-    setSrcDoc(`
-        <html>
-          <body>
-            ${html}
-          </body>
-          <style>
-            ${css}
-          </style>
-          <script>
-            ${javaScript}
-          </script>
-        </html>
-        `);
-  }, [html, css, javaScript]);
-
-<<<<<<< HEAD
   const [openTerminal, setOpenTerminal] = useState<boolean>(false);
 
+  const [logs, setLogs] = useState<string[]>([]);
+
   const [selectedEditor, setSelectedEditor] = useState<'html' | 'css' | 'js'>('html');
-=======
->>>>>>> ae0b1ae37fba175f685db14078b344bb6e6346b0
+
+
+  useEffect(() => {
+    setSrcDoc(`
+      <html>
+        <body>${html}</body>
+        <style>${css}</style>
+        <script>
+          // Injected script to override console.log
+          (function() {
+            const oldLog = console.log;
+            console.log = function(...args) {
+              parent.postMessage({ type: 'log', messages: args }, '*');
+            };
+          })();
+          ${javaScript}
+        </script>
+      </html>
+    `);
+  }, [html, css, javaScript]);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === 'log') {
+        setLogs((prevLogs) => [...prevLogs, ...event.data.messages.map(String)]);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
 
   return (
     <div className="w-screen h-screen bg-black px-1 flex flex-col">
@@ -54,7 +67,6 @@ export default function Home() {
       </div>
 
 
-<<<<<<< HEAD
       <EditorsSection
         html={html}
         css={css}
@@ -66,43 +78,26 @@ export default function Home() {
         setSelectedEditor={setSelectedEditor}
       />
 
-
       <div className="h-full flex flex-col">
         <div className="h-full">
-          {
-            openTerminal ? (
-              <Terminal setOpenTerminal={setOpenTerminal} />
-            ) : (
-              <DisplaySection srcDoc={srcDoc} />
-            )
-          }
+          {openTerminal ? (
+            <Terminal setOpenTerminal={setOpenTerminal} logs={logs} setLogs={setLogs} />
+          ) : (
+            <DisplaySection srcDoc={srcDoc} />
+          )}
         </div>
 
-
-        {
-          !openTerminal && (
-            <div className="bg-zinc-800 text-white py-1 px-4">
-              <button
-                className="rounded-sm px-2 py-[2px] text-[13px] bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-500"
-                onClick={() => setOpenTerminal(true)}
-              >
-                Console
-              </button>
-            </div>
-          )
-        }
-=======
-      <div className="flex justify-between">
-        <EditorSection type="HTML" value={html} setValue={setHtml} />
-        <EditorSection type="CSS" value={css} setValue={setCss} />
-        <EditorSection type="JavaScript" value={javaScript} setValue={setJavaScript} />
-      </div>
-
-
-      <div className="h-full">
-        <DisplaySection srcDoc={srcDoc} />
->>>>>>> ae0b1ae37fba175f685db14078b344bb6e6346b0
+        {!openTerminal && (
+          <div className="bg-zinc-800 text-white py-1 px-4">
+            <button
+              className="rounded-sm px-2 py-[2px] text-[13px] bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-500"
+              onClick={() => setOpenTerminal(true)}
+            >
+              Console
+            </button>
+          </div>
+        )}
       </div>
     </div>
-  )
+  );
 }

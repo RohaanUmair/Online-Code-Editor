@@ -1,7 +1,13 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { IoIosClose } from 'react-icons/io';
 
-function Terminal({ setOpenTerminal }: { setOpenTerminal: Dispatch<SetStateAction<boolean>> }) {
+interface Props {
+    setOpenTerminal: Dispatch<SetStateAction<boolean>>;
+    logs: string[];
+    setLogs: Dispatch<SetStateAction<string[]>>;
+}
+
+function Terminal({ setOpenTerminal, logs, setLogs }: Props) {
     return (
         <div className='h-full w-full z-50 bg-zinc-950 border-t-2 border-black'>
             <div className='h-10 bg-zinc-900 text-white flex justify-between items-center px-12'>
@@ -10,6 +16,7 @@ function Terminal({ setOpenTerminal }: { setOpenTerminal: Dispatch<SetStateActio
                 <div className='flex items-center h-full gap-2'>
                     <button
                         className="rounded-sm px-4 h-3/4 text-[13px] bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-500"
+                        onClick={() => setLogs([])}
                     >
                         Clear
                     </button>
@@ -17,9 +24,15 @@ function Terminal({ setOpenTerminal }: { setOpenTerminal: Dispatch<SetStateActio
                 </div>
             </div>
 
-            <div></div>
+            <div className='text-white p-4 overflow-y-scroll h-[calc(100%-40px)]'>
+                {logs.length ? (
+                    logs.map((log, index) => <p key={index} className='text-sm'>{log}</p>)
+                ) : (
+                    <></>
+                )}
+            </div>
         </div>
-    )
+    );
 }
 
 export default Terminal;

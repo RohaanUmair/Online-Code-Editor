@@ -5,7 +5,7 @@ function DisplaySection({ srcDoc }: { srcDoc: string }) {
         <iframe
             srcDoc={srcDoc}
             className='h-full w-full z-50 bg-white'
-            title='output'
+            title='display'
             sandbox='allow-scripts'
             width={'100%'}
             height={'100%'}
