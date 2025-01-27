@@ -3,9 +3,12 @@ import { VscEditorLayout } from "react-icons/vsc";
 import { SiCss3, SiHtml5, SiJavascript } from "react-icons/si";
 import DisplaySection from "./components/DisplaySection";
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import Terminal from "./components/Terminal";
 import Editor from "./components/Editor";
 import EditorsSection from "./components/EditorsSection";
+=======
+>>>>>>> ae0b1ae37fba175f685db14078b344bb6e6346b0
 
 export default function Home() {
   const [html, setHtml] = useState<string>('');
@@ -30,9 +33,12 @@ export default function Home() {
         `);
   }, [html, css, javaScript]);
 
+<<<<<<< HEAD
   const [openTerminal, setOpenTerminal] = useState<boolean>(false);
 
   const [selectedEditor, setSelectedEditor] = useState<'html' | 'css' | 'js'>('html');
+=======
+>>>>>>> ae0b1ae37fba175f685db14078b344bb6e6346b0
 
   return (
     <div className="w-screen h-screen bg-black px-1 flex flex-col">
@@ -48,6 +54,7 @@ export default function Home() {
       </div>
 
 
+<<<<<<< HEAD
       <EditorsSection
         html={html}
         css={css}
@@ -84,6 +91,17 @@ export default function Home() {
             </div>
           )
         }
+=======
+      <div className="flex justify-between">
+        <EditorSection type="HTML" value={html} setValue={setHtml} />
+        <EditorSection type="CSS" value={css} setValue={setCss} />
+        <EditorSection type="JavaScript" value={javaScript} setValue={setJavaScript} />
+      </div>
+
+
+      <div className="h-full">
+        <DisplaySection srcDoc={srcDoc} />
+>>>>>>> ae0b1ae37fba175f685db14078b344bb6e6346b0
       </div>
     </div>
   )
