@@ -1,12 +1,13 @@
 import React, { ReactElement } from 'react'
-import { IoIosClose } from 'react-icons/io';
 import { SiCss3, SiHtml5, SiJavascript } from 'react-icons/si';
 
 interface Props {
     type: 'HTML' | 'CSS' | 'JavaScript';
+    value: string;
+    setValue: (val: string) => void;
 }
 
-function EditorSection({ type }: Props) {
+function Editor({ type, value, setValue }: Props) {
     function getType(): ReactElement | undefined {
         if (type == 'HTML') {
             return <SiHtml5 className='text-orange-600' />
@@ -20,9 +21,9 @@ function EditorSection({ type }: Props) {
     const icon = getType();
 
     return (
-        <div className='bg-zinc-800 w-[33%] h-80 flex flex-col'>
+        <div className='bg-zinc-800 w-[33%] h-72 flex flex-col      max-md:w-full'>
 
-            <div className='text-[#ccc] bg-black h-10 border-b'>
+            <div className='text-[#ccc] bg-black h-10 border-b      max-md:hidden'>
                 <h2 className='flex items-center gap-2 bg-zinc-800 w-fit px-[5%] py-2 rounded-t-sm'>
                     {type}
                     {icon}
@@ -30,9 +31,14 @@ function EditorSection({ type }: Props) {
             </div>
 
 
-            <textarea className='w-full h-full resize-none bg-zinc-800 outline-none p-5 text-white'></textarea>
+            <textarea
+                spellCheck={false}
+                className='w-full h-full resize-none bg-zinc-800 outline-none p-5 text-white text-sm'
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+            />
         </div>
     )
 }
 
-export default EditorSection;
+export default Editor;
