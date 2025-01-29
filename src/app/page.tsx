@@ -21,27 +21,37 @@ export default function Home() {
 
 
   useEffect(() => {
-    setSrcDoc(`
-      <html>
-        <body>${html}</body>
-        <style>${css}</style>
-        <script>
-          // Injected script to override console.log
-          (function() {
-            const oldLog = console.log;
-            console.log = function(...args) {
-              parent.postMessage({ type: 'log', messages: args }, '*');
-            };
-          })();
-          ${javaScript}
-        </script>
-      </html>
-    `);
+    const timeout = setTimeout(() => {
+      setSrcDoc(`
+        <html>
+          <body>${html}</body>
+          <style>${css}</style>
+          <script>
+            (function() {
+              ['log', 'error', 'warn'].forEach((method) => {
+                const oldMethod = console[method];
+                console[method] = function(...args) {
+                  parent.postMessage({ type: method, messages: args }, '*');
+                };
+              });
+            })();
+            ${javaScript}
+          </script>
+        </html>
+      `);
+    }, 250);
+
+    return () => clearTimeout(timeout);
   }, [html, css, javaScript]);
 
   useEffect(() => {
+    console.log("Logs updated:", logs);
+  }, [logs]);
+
+
+  useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      if (event.data.type === 'log') {
+      if (['log', 'error', 'warn'].includes(event.data.type)) {
         setLogs((prevLogs) => [...prevLogs, ...event.data.messages.map(String)]);
       }
     };
@@ -50,7 +60,8 @@ export default function Home() {
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, []);
+  }, [logs]);
+
 
 
   return (
@@ -79,12 +90,20 @@ export default function Home() {
       />
 
       <div className="h-full flex flex-col">
-        <div className="h-full">
-          {openTerminal ? (
+        <div className="h-full flex flex-col w-full">
+          {/* {openTerminal ? (
             <Terminal setOpenTerminal={setOpenTerminal} logs={logs} setLogs={setLogs} />
           ) : (
             <DisplaySection srcDoc={srcDoc} />
-          )}
+          )} */}
+
+          <div className={`${!openTerminal && 'hidden'} h-full`}>
+            <Terminal setOpenTerminal={setOpenTerminal} logs={logs} setLogs={setLogs} />
+          </div>
+
+          <div className={`${openTerminal && 'hidden'} h-full`}>
+            <DisplaySection srcDoc={srcDoc} />
+          </div>
         </div>
 
         {!openTerminal && (
