@@ -9,7 +9,7 @@ interface Props {
 
 function Terminal({ setOpenTerminal, logs, setLogs }: Props) {
     return (
-        <div className='h-full w-full z-50 bg-zinc-950 border-t-2 border-black'>
+        <div className='h-[43dvh] w-full z-50 bg-zinc-950 border-t-2 border-black flex flex-col'>
             <div className='h-10 bg-zinc-900 text-white flex justify-between items-center px-12'>
                 <h3>Console</h3>
 
@@ -24,9 +24,13 @@ function Terminal({ setOpenTerminal, logs, setLogs }: Props) {
                 </div>
             </div>
 
-            <div className='text-white p-4 overflow-y-scroll h-[calc(100%-40px)]'>
+            <div className='text-white p-4 overflow-y-scroll h-full'>
                 {logs.length ? (
-                    logs.map((log, index) => <p key={index} className='text-sm'>{log}</p>)
+                    logs.map((log, index) => {
+                        return (
+                            <p key={index} className='text-sm border-b py-2 border-[#222]'>{log}</p>
+                        )
+                    })
                 ) : (
                     <></>
                 )}

@@ -66,10 +66,10 @@ export default function Home() {
 
   return (
     <div className="w-screen h-screen bg-black px-1 flex flex-col">
-      <div className="flex flex-col px-6 py-2 border-b border-[#777] mb-1">
-        <h1 className="text-white text-3xl flex items-center gap-3 pt-2 font-semibold"><VscEditorLayout />   Online Code Editor</h1>
+      <div className="flex flex-col px-6 py-1 border-b border-[#777] mb-1 h-[12dvh]">
+        <h1 className="text-white text-2xl flex items-center gap-3 pt-2 font-semibold"><VscEditorLayout />   Online Code Editor</h1>
 
-        <div className="text-white pl-12 flex items-center gap-4 font-thin text-xl">
+        <div className="text-white pl-10 flex items-center gap-4 font-thin text-base">
           <p className="flex items-center gap-1">HTML <SiHtml5 className="text-orange-600" /></p>
           <p className="flex items-center gap-1">Css <SiCss3 className="text-blue-500" /></p>
           <p className="flex items-center gap-1">JavaScript <SiJavascript className="text-yellow-500" /></p>
@@ -78,21 +78,21 @@ export default function Home() {
       </div>
 
 
-      <EditorsSection
-        html={html}
-        css={css}
-        javaScript={javaScript}
-        setHtml={setHtml}
-        setCss={setCss}
-        setJavaScript={setJavaScript}
-        selectedEditor={selectedEditor}
-        setSelectedEditor={setSelectedEditor}
-      />
-      
+        <EditorsSection
+          html={html}
+          css={css}
+          javaScript={javaScript}
+          setHtml={setHtml}
+          setCss={setCss}
+          setJavaScript={setJavaScript}
+          selectedEditor={selectedEditor}
+          setSelectedEditor={setSelectedEditor}
+        />
+
 
       <div className="h-full flex flex-col">
         <div className="h-full flex flex-col w-full">
-          
+
           <div className={`${!openTerminal && 'hidden'} h-full`}>
             <Terminal setOpenTerminal={setOpenTerminal} logs={logs} setLogs={setLogs} />
           </div>

@@ -21,7 +21,7 @@ function Editor({ type, value, setValue }: Props) {
     const icon = getType();
 
     return (
-        <div className='bg-zinc-800 w-[33%] h-72 flex flex-col      max-md:w-full'>
+        <div className='bg-zinc-800 w-[33%] h-[45dvh] flex flex-col      max-md:w-full'>
 
             <div className='text-[#ccc] bg-black h-10 border-b      max-md:hidden'>
                 <h2 className='flex items-center gap-2 bg-zinc-800 w-fit px-[5%] py-2 rounded-t-sm'>
