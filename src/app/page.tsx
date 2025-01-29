@@ -88,15 +88,11 @@ export default function Home() {
         selectedEditor={selectedEditor}
         setSelectedEditor={setSelectedEditor}
       />
+      
 
       <div className="h-full flex flex-col">
         <div className="h-full flex flex-col w-full">
-          {/* {openTerminal ? (
-            <Terminal setOpenTerminal={setOpenTerminal} logs={logs} setLogs={setLogs} />
-          ) : (
-            <DisplaySection srcDoc={srcDoc} />
-          )} */}
-
+          
           <div className={`${!openTerminal && 'hidden'} h-full`}>
             <Terminal setOpenTerminal={setOpenTerminal} logs={logs} setLogs={setLogs} />
           </div>
